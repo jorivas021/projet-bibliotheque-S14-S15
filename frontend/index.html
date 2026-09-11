@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bibliothèque de quartier</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>📚 Bibliothèque de quartier</h1>
+    <nav>
+      <button class="nav-btn active" data-section="tableau-bord">Tableau de bord</button>
+      <button class="nav-btn" data-section="livres">Livres</button>
+      <button class="nav-btn" data-section="auteurs">Auteurs</button>
+      <button class="nav-btn" data-section="adherents">Adhérents</button>
+      <button class="nav-btn" data-section="emprunts">Emprunts</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- TABLEAU DE BORD -->
+    <section id="tableau-bord" class="section active">
+      <h2>Tableau de bord</h2>
+      <div class="stats-grid" id="stats-grid"></div>
+    </section>
+
+    <!-- LIVRES -->
+    <section id="livres" class="section">
+      <h2>Livres</h2>
+      <div class="toolbar">
+        <input type="text" id="recherche-livre" placeholder="Rechercher par titre ou auteur...">
+        <button id="btn-afficher-form-livre">+ Ajouter un livre</button>
+      </div>
+      <form id="form-livre" class="form hidden">
+        <input type="text" id="livre-titre" placeholder="Titre" required>
+        <input type="number" id="livre-annee" placeholder="Année de publication">
+        <select id="livre-auteur" required></select>
+        <input type="hidden" id="livre-id">
+        <button type="submit">Enregistrer</button>
+        <button type="button" class="btn-annuler">Annuler</button>
+        <p class="erreur" id="livre-erreur"></p>
+      </form>
+      <table>
+        <thead>
+          <tr><th>Titre</th><th>Auteur</th><th>Année</th><th>Statut</th><th>Actions</th></tr>
+        </thead>
+        <tbody id="livres-tbody"></tbody>
+      </table>
+      <div class="pagination" id="livres-pagination"></div>
+    </section>
+
+    <!-- AUTEURS -->
+    <section id="auteurs" class="section">
+      <h2>Auteurs</h2>
+      <button id="btn-afficher-form-auteur">+ Ajouter un auteur</button>
+      <form id="form-auteur" class="form hidden">
+        <input type="text" id="auteur-nom" placeholder="Nom" required>
+        <input type="text" id="auteur-nationalite" placeholder="Nationalité">
+        <input type="hidden" id="auteur-id">
+        <button type="submit">Enregistrer</button>
+        <button type="button" class="btn-annuler">Annuler</button>
+      </form>
+      <table>
+        <thead><tr><th>Nom</th><th>Nationalité</th><th>Actions</th></tr></thead>
+        <tbody id="auteurs-tbody"></tbody>
+      </table>
+    </section>
+
+    <!-- ADHERENTS -->
+    <section id="adherents" class="section">
+      <h2>Adhérents</h2>
+      <button id="btn-afficher-form-adherent">+ Ajouter un adhérent</button>
+      <form id="form-adherent" class="form hidden">
+        <input type="text" id="adherent-nom" placeholder="Nom" required>
+        <input type="text" id="adherent-contact" placeholder="Contact" required>
+        <input type="hidden" id="adherent-id">
+        <button type="submit">Enregistrer</button>
+        <button type="button" class="btn-annuler">Annuler</button>
+      </form>
+      <table>
+        <thead><tr><th>Nom</th><th>Contact</th><th>Actions</th></tr></thead>
+        <tbody id="adherents-tbody"></tbody>
+      </table>
+      <div id="adherent-historique"></div>
+    </section>
+
+    <!-- EMPRUNTS -->
+    <section id="emprunts" class="section">
+      <h2>Emprunts</h2>
+      <button id="btn-afficher-form-emprunt">+ Nouvel emprunt</button>
+      <form id="form-emprunt" class="form hidden">
+        <select id="emprunt-adherent" required></select>
+        <select id="emprunt-livre" required></select>
+        <input type="date" id="emprunt-date-retour" required>
+        <button type="submit">Enregistrer</button>
+        <button type="button" class="btn-annuler">Annuler</button>
+        <p class="erreur" id="emprunt-erreur"></p>
+      </form>
+      <h3>En cours / en retard</h3>
+      <table>
+        <thead><tr><th>Adhérent</th><th>Livre</th><th>Emprunté le</th><th>Retour prévu</th><th>Statut</th><th>Actions</th></tr></thead>
+        <tbody id="emprunts-tbody"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/nav.js"></script>
+  <script src="js/auteurs.js"></script>
+  <script src="js/adherents.js"></script>
+  <script src="js/livres.js"></script>
+  <script src="js/emprunts.js"></script>
+  <script src="js/stats.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

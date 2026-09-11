@@ -1,0 +1,78 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, Segoe UI, Arial, sans-serif;
+  margin: 0;
+  background: #f4f5f7;
+  color: #222;
+}
+header {
+  background: #1f2d3d;
+  color: white;
+  padding: 1rem 2rem;
+}
+header h1 { margin: 0 0 0.75rem; font-size: 1.4rem; }
+nav { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.nav-btn {
+  background: transparent;
+  border: 1px solid #4a5b70;
+  color: #cfd8e3;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.nav-btn.active, .nav-btn:hover { background: #3a4c62; color: white; }
+
+main { padding: 1.5rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section { display: none; }
+.section.active { display: block; }
+
+.toolbar { display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+input, select, button {
+  font-size: 0.95rem;
+  padding: 0.5rem 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+button {
+  background: #2c6e49;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+button:hover { background: #245a3c; }
+.btn-annuler { background: #888; }
+.btn-annuler:hover { background: #666; }
+
+.form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+.form.hidden { display: none; }
+.erreur { color: #b02a2a; width: 100%; margin: 0.3rem 0 0; font-size: 0.9rem; }
+
+table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+th, td { text-align: left; padding: 0.6rem 0.8rem; border-bottom: 1px solid #eee; }
+th { background: #eef1f4; }
+
+.badge { padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; }
+.badge.disponible { background: #d9f2e3; color: #1e7d4e; }
+.badge.emprunte { background: #fbe4d5; color: #a65a1c; }
+.badge.retard { background: #fbd6d6; color: #a12626; }
+.badge.en-cours { background: #dce9fb; color: #1c4f8a; }
+
+.stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
+.stat-card { background: white; padding: 1.2rem; border-radius: 10px; text-align: center; }
+.stat-card .valeur { font-size: 1.8rem; font-weight: bold; color: #2c6e49; }
+.stat-card .label { font-size: 0.85rem; color: #666; margin-top: 0.3rem; }
+
+.pagination { display: flex; gap: 0.4rem; margin-top: 0.8rem; }
+.pagination button { background: #eee; color: #222; }
+.pagination button.active { background: #2c6e49; color: white; }
+
+tr.en-retard { background: #fff3f0; }
