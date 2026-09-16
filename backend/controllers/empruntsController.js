@@ -57,6 +57,12 @@ const creer = asyncHandler(async (req, res) => {
 
     await client.query('UPDATE livres SET disponible = FALSE WHERE id = $1', [livre_id]);
 
+    // Si l'adhérent avait réservé ce livre, la réservation est honorée : on la retire de la file d'attente.
+    await client.query(
+      'DELETE FROM reservations WHERE livre_id = $1 AND adherent_id = $2',
+      [livre_id, adherent_id]
+    );
+
     await client.query('COMMIT');
     res.status(201).json(emprunt.rows[0]);
   } catch (err) {

@@ -10,6 +10,7 @@ const adherentsRoutes = require('./routes/adherents');
 const livresRoutes = require('./routes/livres');
 const empruntsRoutes = require('./routes/emprunts');
 const statsRoutes = require('./routes/stats');
+const reservationsRoutes = require('./routes/reservations');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use('/api/adherents', adherentsRoutes);
 app.use('/api/livres', livresRoutes);
 app.use('/api/emprunts', empruntsRoutes);
 app.use('/api/stats', statsRoutes);
+app.use('/api/reservations', reservationsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

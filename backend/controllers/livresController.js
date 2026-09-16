@@ -1,10 +1,10 @@
 const pool = require('../config/db');
 const { asyncHandler, ApiError } = require('../middlewares/errorHandler');
 
-// GET /api/livres?q=texte&page=1&limite=10
-// Recherche par titre ou nom d'auteur, avec pagination
+// GET /api/livres?q=texte&page=1&limite=10&disponible=true&auteur_id=3
+// Recherche par titre ou nom d'auteur, filtres disponibilité/auteur, avec pagination
 const lister = asyncHandler(async (req, res) => {
-  const { q } = req.query;
+  const { q, disponible, auteur_id } = req.query;
   const page = Math.max(parseInt(req.query.page, 10) || 1, 1);
   const limite = Math.min(Math.max(parseInt(req.query.limite, 10) || 10, 1), 100);
   const offset = (page - 1) * limite;
@@ -15,6 +15,14 @@ const lister = asyncHandler(async (req, res) => {
   if (q) {
     valeurs.push(`%${q}%`);
     conditions.push(`(l.titre ILIKE $${valeurs.length} OR a.nom ILIKE $${valeurs.length})`);
+  }
+  if (disponible === 'true' || disponible === 'false') {
+    valeurs.push(disponible === 'true');
+    conditions.push(`l.disponible = $${valeurs.length}`);
+  }
+  if (auteur_id) {
+    valeurs.push(auteur_id);
+    conditions.push(`l.auteur_id = $${valeurs.length}`);
   }
 
   const whereClause = conditions.length ? `WHERE ${conditions.join(' AND ')}` : '';

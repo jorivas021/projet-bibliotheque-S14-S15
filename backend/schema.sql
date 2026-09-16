@@ -40,11 +40,21 @@ CREATE TABLE emprunts (
     date_retour_effective DATE -- NULL tant que le livre n'est pas rendu
 );
 
+-- Réservations (file d'attente sur un livre déjà emprunté)
+CREATE TABLE reservations (
+    id SERIAL PRIMARY KEY,
+    livre_id INTEGER NOT NULL REFERENCES livres(id) ON DELETE CASCADE,
+    adherent_id INTEGER NOT NULL REFERENCES adherents(id) ON DELETE CASCADE,
+    date_reservation TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    UNIQUE (livre_id, adherent_id)
+);
+
 -- Index utiles pour les recherches et jointures fréquentes
 CREATE INDEX idx_livres_auteur ON livres(auteur_id);
 CREATE INDEX idx_emprunts_livre ON emprunts(livre_id);
 CREATE INDEX idx_emprunts_adherent ON emprunts(adherent_id);
 CREATE INDEX idx_emprunts_retour_effective ON emprunts(date_retour_effective);
+CREATE INDEX idx_reservations_livre ON reservations(livre_id);
 
 -- ============================================
 -- Données de démonstration (optionnel)
