@@ -1,7 +1,4 @@
-// En local : http://localhost:3000/api
-// Une fois déployé sur Render, remplace par ton URL, ex :
-// const API_BASE = 'https://ton-projet.onrender.com/api';
-const API_BASE = 'http://localhost:3000/api';
+const API_BASE = 'https://rivatheque.onrender.com/';
 
 async function apiRequest(chemin, options = {}) {
   const reponse = await fetch(`${API_BASE}${chemin}`, {
