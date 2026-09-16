@@ -1,4 +1,4 @@
-const API_BASE = 'https://rivatheque.onrender.com/api';
+const API_BASE = 'https://rivatheque.onrender.com/';
 
 async function apiRequest(chemin, options = {}) {
   const reponse = await fetch(`${API_BASE}${chemin}`, {
