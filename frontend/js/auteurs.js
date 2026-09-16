@@ -6,8 +6,14 @@ async function chargerAuteurs() {
       <td>${a.nom}</td>
       <td>${a.nationalite || '-'}</td>
       <td>
-        <button onclick="editerAuteur(${a.id}, '${a.nom}', '${a.nationalite || ''}')">Modifier</button>
-        <button class="btn-annuler" onclick="supprimerAuteur(${a.id})">Supprimer</button>
+        <div class="action-buttons">
+          <button class="btn btn-sm btn-warning" onclick="editerAuteur(${a.id}, '${a.nom}', '${a.nationalite || ''}')">
+            ✏️ Modifier
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="supprimerAuteur(${a.id})">
+            🗑️ Supprimer
+          </button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -17,8 +23,15 @@ async function chargerAuteurs() {
 
 function remplirSelectAuteurs(auteurs) {
   const select = document.getElementById('livre-auteur');
-  if (!select) return;
-  select.innerHTML = auteurs.map((a) => `<option value="${a.id}">${a.nom}</option>`).join('');
+  if (select) select.innerHTML = auteurs.map((a) => `<option value="${a.id}">${a.nom}</option>`).join('');
+
+  const filtre = document.getElementById('filtre-auteur');
+  if (filtre) {
+    const valeurActuelle = filtre.value;
+    filtre.innerHTML = '<option value="">Tous les auteurs</option>'
+      + auteurs.map((a) => `<option value="${a.id}">${a.nom}</option>`).join('');
+    filtre.value = valeurActuelle;
+  }
 }
 
 function editerAuteur(id, nom, nationalite) {
@@ -30,8 +43,13 @@ function editerAuteur(id, nom, nationalite) {
 
 async function supprimerAuteur(id) {
   if (!confirm('Supprimer cet auteur ?')) return;
-  await api.delete(`/auteurs/${id}`);
-  chargerAuteurs();
+  try {
+    await api.delete(`/auteurs/${id}`);
+    toast('Auteur supprimé.');
+    chargerAuteurs();
+  } catch (err) {
+    toast(err.message, 'erreur');
+  }
 }
 
 document.getElementById('btn-afficher-form-auteur').addEventListener('click', () => basculerForm('form-auteur'));
@@ -44,14 +62,19 @@ document.getElementById('form-auteur').addEventListener('submit', async (e) => {
     nationalite: document.getElementById('auteur-nationalite').value,
   };
 
-  if (id) {
-    await api.put(`/auteurs/${id}`, corps);
-  } else {
-    await api.post('/auteurs', corps);
+  try {
+    if (id) {
+      await api.put(`/auteurs/${id}`, corps);
+      toast('Auteur modifié.');
+    } else {
+      await api.post('/auteurs', corps);
+      toast('Auteur ajouté.');
+    }
+    e.target.reset();
+    document.getElementById('auteur-id').value = '';
+    e.target.classList.add('hidden');
+    chargerAuteurs();
+  } catch (err) {
+    toast(err.message, 'erreur');
   }
-
-  e.target.reset();
-  document.getElementById('auteur-id').value = '';
-  e.target.classList.add('hidden');
-  chargerAuteurs();
 });

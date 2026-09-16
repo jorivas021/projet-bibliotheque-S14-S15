@@ -6,9 +6,17 @@ async function chargerAdherents() {
       <td>${a.nom}</td>
       <td>${a.contact}</td>
       <td>
-        <button onclick="voirHistorique(${a.id}, '${a.nom}')">Historique</button>
-        <button onclick="editerAdherent(${a.id}, '${a.nom}', '${a.contact}')">Modifier</button>
-        <button class="btn-annuler" onclick="supprimerAdherent(${a.id})">Supprimer</button>
+        <div class="action-buttons">
+          <button class="btn btn-sm btn-info" onclick="voirHistorique(${a.id}, '${a.nom}')">
+            📜 Historique
+          </button>
+          <button class="btn btn-sm btn-warning" onclick="editerAdherent(${a.id}, '${a.nom}', '${a.contact}')">
+            ✏️ Modifier
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="supprimerAdherent(${a.id})">
+            🗑️ Supprimer
+          </button>
+        </div>
       </td>
     </tr>
   `).join('');
@@ -17,9 +25,11 @@ async function chargerAdherents() {
 }
 
 function remplirSelectAdherents(adherents) {
-  const select = document.getElementById('emprunt-adherent');
-  if (!select) return;
-  select.innerHTML = adherents.map((a) => `<option value="${a.id}">${a.nom}</option>`).join('');
+  const optionsHTML = adherents.map((a) => `<option value="${a.id}">${a.nom}</option>`).join('');
+  const selectEmprunt = document.getElementById('emprunt-adherent');
+  if (selectEmprunt) selectEmprunt.innerHTML = optionsHTML;
+  const selectReservation = document.getElementById('reservation-adherent');
+  if (selectReservation) selectReservation.innerHTML = optionsHTML;
 }
 
 async function voirHistorique(id, nom) {
@@ -64,8 +74,13 @@ function editerAdherent(id, nom, contact) {
 
 async function supprimerAdherent(id) {
   if (!confirm('Supprimer cet adhérent ?')) return;
-  await api.delete(`/adherents/${id}`);
-  chargerAdherents();
+  try {
+    await api.delete(`/adherents/${id}`);
+    toast('Adhérent supprimé.');
+    chargerAdherents();
+  } catch (err) {
+    toast(err.message, 'erreur');
+  }
 }
 
 document.getElementById('btn-afficher-form-adherent').addEventListener('click', () => basculerForm('form-adherent'));
@@ -78,14 +93,19 @@ document.getElementById('form-adherent').addEventListener('submit', async (e) =>
     contact: document.getElementById('adherent-contact').value,
   };
 
-  if (id) {
-    await api.put(`/adherents/${id}`, corps);
-  } else {
-    await api.post('/adherents', corps);
+  try {
+    if (id) {
+      await api.put(`/adherents/${id}`, corps);
+      toast('Adhérent modifié.');
+    } else {
+      await api.post('/adherents', corps);
+      toast('Adhérent ajouté.');
+    }
+    e.target.reset();
+    document.getElementById('adherent-id').value = '';
+    e.target.classList.add('hidden');
+    chargerAdherents();
+  } catch (err) {
+    toast(err.message, 'erreur');
   }
-
-  e.target.reset();
-  document.getElementById('adherent-id').value = '';
-  e.target.classList.add('hidden');
-  chargerAdherents();
 });

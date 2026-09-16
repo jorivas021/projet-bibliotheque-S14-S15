@@ -1,115 +1,245 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bibliothèque de quartier</title>
-<link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rivathèque</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Playfair+Display:ital,wght@0,600;0,700;1,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <h1>📚 Bibliothèque de quartier</h1>
-    <nav>
-      <button class="nav-btn active" data-section="tableau-bord">Tableau de bord</button>
-      <button class="nav-btn" data-section="livres">Livres</button>
-      <button class="nav-btn" data-section="auteurs">Auteurs</button>
-      <button class="nav-btn" data-section="adherents">Adhérents</button>
-      <button class="nav-btn" data-section="emprunts">Emprunts</button>
-    </nav>
+  <div id="toast-container"></div>
+  
+  <header class="app-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="logo-badge">
+          <span>B</span>
+        </div>
+        <div class="brand-text">
+          <h1>Bibliothèque De Quartier</h1>
+          <span class="sub-brand">Rivathèque</span>
+        </div>
+      </div>
+
+      <nav class="nav-container">
+        <button class="nav-btn active" data-section="tableau-bord">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>Tableau de bord</span>
+        </button>
+        <button class="nav-btn" data-section="livres">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>Livres</span>
+        </button>
+        <button class="nav-btn" data-section="auteurs">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <span>Auteurs</span>
+        </button>
+        <button class="nav-btn" data-section="adherents">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><path d="M21 21v-2a4 4 0 0 0-3-3.85"></path><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M1 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+          <span>Adhérents</span>
+        </button>
+        <button class="nav-btn" data-section="emprunts">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <span>Emprunts</span>
+        </button>
+      </nav>
+
+      <div class="header-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" title="Changer de thème (Clair / Sombre)">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+      </div>
+    </div>
   </header>
 
-  <main>
+  <main class="main-content">
     <!-- TABLEAU DE BORD -->
     <section id="tableau-bord" class="section active">
-      <h2>Tableau de bord</h2>
-      <div class="stats-grid" id="stats-grid"></div>
+      <div class="hero-banner">
+        <div class="hero-text">
+          <h2>Aperçu général</h2>
+          <p>Bienvenue sur le portail de gestion de votre bibliothèque de quartier.</p>
+        </div>
+        <div class="stats-grid" id="stats-grid">
+          <!-- Chargé dynamiquement -->
+        </div>
+      </div>
     </section>
 
     <!-- LIVRES -->
     <section id="livres" class="section">
-      <h2>Livres</h2>
-      <div class="toolbar">
-        <input type="text" id="recherche-livre" placeholder="Rechercher par titre ou auteur...">
-        <button id="btn-afficher-form-livre">+ Ajouter un livre</button>
+      <div class="section-header">
+        <h2>Catalogue des Livres</h2>
+        <button id="btn-afficher-form-livre" class="btn btn-primary">+ Ajouter un livre</button>
       </div>
-      <form id="form-livre" class="form hidden">
-        <input type="text" id="livre-titre" placeholder="Titre" required>
-        <input type="number" id="livre-annee" placeholder="Année de publication">
-        <select id="livre-auteur" required></select>
+
+      <div class="toolbar">
+        <div class="search-input-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="recherche-livre" placeholder="Rechercher par titre ou auteur... (Ctrl+K)">
+        </div>
+        <div class="filter-group">
+          <select id="filtre-disponibilite">
+            <option value="">Tous les statuts</option>
+            <option value="true">Disponible</option>
+            <option value="false">Emprunté</option>
+          </select>
+          <select id="filtre-auteur">
+            <option value="">Tous les auteurs</option>
+          </select>
+        </div>
+      </div>
+
+      <form id="form-reservation" class="form-card hidden">
+        <input type="hidden" id="reservation-livre-id">
+        <strong id="reservation-livre-nom"></strong>
+        <div class="form-row">
+          <select id="reservation-adherent" required>
+            <option value="" disabled selected>-- Sélectionnez un adherent --</option>
+          </select>
+          <button type="submit" class="btn btn-success">Valider la réservation</button>
+          <button type="button" class="btn btn-annuler">Annuler</button>
+        </div>
+        <p class="erreur" id="reservation-erreur"></p>
+      </form>
+
+      <form id="form-livre" class="form-card hidden">
+        <h3 class="form-title">Nouveau / Modifier Livre</h3>
+        <div class="form-grid">
+          <input type="text" id="livre-titre" placeholder="Titre du livre" required>
+          <input type="number" id="livre-annee" placeholder="Année de publication">
+          <select id="livre-auteur" required>
+            <option value="" disabled selected>-- Sélectionnez un auteur --</option>
+          </select>
+        </div>
         <input type="hidden" id="livre-id">
-        <button type="submit">Enregistrer</button>
-        <button type="button" class="btn-annuler">Annuler</button>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-annuler">Annuler</button>
+        </div>
         <p class="erreur" id="livre-erreur"></p>
       </form>
-      <table>
-        <thead>
-          <tr><th>Titre</th><th>Auteur</th><th>Année</th><th>Statut</th><th>Actions</th></tr>
-        </thead>
-        <tbody id="livres-tbody"></tbody>
-      </table>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr><th>Titre</th><th>Auteur</th><th>Année</th><th>Statut</th><th class="text-right">Actions</th></tr>
+          </thead>
+          <tbody id="livres-tbody"></tbody>
+        </table>
+      </div>
       <div class="pagination" id="livres-pagination"></div>
     </section>
 
     <!-- AUTEURS -->
     <section id="auteurs" class="section">
-      <h2>Auteurs</h2>
-      <button id="btn-afficher-form-auteur">+ Ajouter un auteur</button>
-      <form id="form-auteur" class="form hidden">
-        <input type="text" id="auteur-nom" placeholder="Nom" required>
-        <input type="text" id="auteur-nationalite" placeholder="Nationalité">
+      <div class="section-header">
+        <h2>Gestion des Auteurs</h2>
+        <button id="btn-afficher-form-auteur" class="btn btn-primary">+ Ajouter un auteur</button>
+      </div>
+
+      <form id="form-auteur" class="form-card hidden">
+        <h3 class="form-title">Fiche Auteur</h3>
+        <div class="form-grid">
+          <input type="text" id="auteur-nom" placeholder="Nom complet" required>
+          <input type="text" id="auteur-nationalite" placeholder="Nationalité">
+        </div>
         <input type="hidden" id="auteur-id">
-        <button type="submit">Enregistrer</button>
-        <button type="button" class="btn-annuler">Annuler</button>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-annuler">Annuler</button>
+        </div>
       </form>
-      <table>
-        <thead><tr><th>Nom</th><th>Nationalité</th><th>Actions</th></tr></thead>
-        <tbody id="auteurs-tbody"></tbody>
-      </table>
+
+      <div class="table-container">
+        <table>
+          <thead><tr><th>Nom</th><th>Nationalité</th><th class="text-right">Actions</th></tr></thead>
+          <tbody id="auteurs-tbody"></tbody>
+        </table>
+      </div>
     </section>
 
     <!-- ADHERENTS -->
     <section id="adherents" class="section">
-      <h2>Adhérents</h2>
-      <button id="btn-afficher-form-adherent">+ Ajouter un adhérent</button>
-      <form id="form-adherent" class="form hidden">
-        <input type="text" id="adherent-nom" placeholder="Nom" required>
-        <input type="text" id="adherent-contact" placeholder="Contact" required>
+      <div class="section-header">
+        <h2>Gestion des Adhérents</h2>
+        <button id="btn-afficher-form-adherent" class="btn btn-primary">+ Ajouter un adhérent</button>
+      </div>
+
+      <form id="form-adherent" class="form-card hidden">
+        <h3 class="form-title">Fiche Adhérent</h3>
+        <div class="form-grid">
+          <input type="text" id="adherent-nom" placeholder="Nom & Prénom" required>
+          <input type="text" id="adherent-contact" placeholder="Email ou Téléphone" required>
+        </div>
         <input type="hidden" id="adherent-id">
-        <button type="submit">Enregistrer</button>
-        <button type="button" class="btn-annuler">Annuler</button>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Enregistrer</button>
+          <button type="button" class="btn btn-annuler">Annuler</button>
+        </div>
       </form>
-      <table>
-        <thead><tr><th>Nom</th><th>Contact</th><th>Actions</th></tr></thead>
-        <tbody id="adherents-tbody"></tbody>
-      </table>
-      <div id="adherent-historique"></div>
+
+      <div class="table-container">
+        <table>
+          <thead><tr><th>Nom</th><th>Contact</th><th class="text-right">Actions</th></tr></thead>
+          <tbody id="adherents-tbody"></tbody>
+        </table>
+      </div>
+      <div id="adherent-historique" class="historique-card"></div>
     </section>
 
     <!-- EMPRUNTS -->
     <section id="emprunts" class="section">
-      <h2>Emprunts</h2>
-      <button id="btn-afficher-form-emprunt">+ Nouvel emprunt</button>
-      <form id="form-emprunt" class="form hidden">
-        <select id="emprunt-adherent" required></select>
-        <select id="emprunt-livre" required></select>
-        <input type="date" id="emprunt-date-retour" required>
-        <button type="submit">Enregistrer</button>
-        <button type="button" class="btn-annuler">Annuler</button>
+      <div class="section-header">
+        <h2>Suivi des Emprunts</h2>
+        <div class="header-btns">
+          <button id="btn-export-retard" type="button" class="btn btn-secondary">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Exporter retards (CSV)
+          </button>
+          <button id="btn-afficher-form-emprunt" class="btn btn-primary">+ Nouvel emprunt</button>
+        </div>
+      </div>
+
+      <form id="form-emprunt" class="form-card hidden">
+        <h3 class="form-title">Enregistrer un emprunt</h3>
+        <div class="form-grid">
+          <select id="emprunt-adherent" required>
+            <option value="" disabled selected>-- Sélectionnez un adherent --</option>
+          </select>
+          <select id="emprunt-livre" required>
+            <option value="" disabled selected>-- Sélectionnez un livre --</option>
+          </select>
+          <input type="date" id="emprunt-date-retour" required>
+        </div>
         <p class="erreur" id="emprunt-erreur"></p>
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Enregistrer l'emprunt</button>
+          <button type="button" class="btn btn-annuler">Annuler</button>
+        </div>
       </form>
-      <h3>En cours / en retard</h3>
-      <table>
-        <thead><tr><th>Adhérent</th><th>Livre</th><th>Emprunté le</th><th>Retour prévu</th><th>Statut</th><th>Actions</th></tr></thead>
-        <tbody id="emprunts-tbody"></tbody>
-      </table>
+
+      <div class="table-container">
+        <table>
+          <thead><tr><th>Adhérent</th><th>Livre</th><th>Emprunté le</th><th>Retour prévu</th><th>Statut</th><th class="text-right">Actions</th></tr></thead>
+          <tbody id="emprunts-tbody"></tbody>
+        </table>
+      </div>
     </section>
   </main>
 
   <script src="js/api.js"></script>
+  <script src="js/toast.js"></script>
   <script src="js/nav.js"></script>
+  <script src="js/theme.js"></script> <!-- Nouveau script Theme -->
   <script src="js/auteurs.js"></script>
   <script src="js/adherents.js"></script>
   <script src="js/livres.js"></script>
+  <script src="js/reservations.js"></script>
   <script src="js/emprunts.js"></script>
   <script src="js/stats.js"></script>
   <script src="js/main.js"></script>

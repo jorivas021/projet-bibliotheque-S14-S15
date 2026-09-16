@@ -3,13 +3,24 @@ let livresPageActuelle = 1;
 async function chargerLivres(page = 1) {
   livresPageActuelle = page;
   const q = document.getElementById('recherche-livre').value.trim();
+  const disponibilite = document.getElementById('filtre-disponibilite').value;
+  const auteurId = document.getElementById('filtre-auteur').value;
+
   const params = new URLSearchParams({ page, limite: 10 });
   if (q) params.set('q', q);
+  if (disponibilite) params.set('disponible', disponibilite);
+  if (auteurId) params.set('auteur_id', auteurId);
 
-  const { donnees, pagination } = await api.get(`/livres?${params}`);
+  const [{ donnees, pagination }] = await Promise.all([
+    api.get(`/livres?${params}`),
+    chargerReservations(),
+  ]);
 
   const tbody = document.getElementById('livres-tbody');
-  tbody.innerHTML = donnees.map((l) => `
+  tbody.innerHTML = donnees.map((l) => {
+    const enAttente = (reservationsParLivre[l.id] || []).length;
+    const titreEchappe = l.titre.replace(/'/g, "\\'");
+    return `
     <tr>
       <td>${l.titre}</td>
       <td>${l.auteur_nom}</td>
@@ -20,11 +31,19 @@ async function chargerLivres(page = 1) {
         </span>
       </td>
       <td>
-        <button onclick="editerLivre(${l.id}, '${l.titre.replace(/'/g, "\\'")}', ${l.annee_publication || 'null'}, ${l.auteur_id})">Modifier</button>
-        <button class="btn-annuler" onclick="supprimerLivre(${l.id})">Supprimer</button>
+        <div class="action-buttons">
+          <button class="btn btn-sm btn-warning" onclick="editerLivre(${l.id}, '${titreEchappe}', ${l.annee_publication || 'null'}, ${l.auteur_id})">
+            ✏️ Modifier
+          </button>
+          <button class="btn btn-sm btn-danger" onclick="supprimerLivre(${l.id})">
+            🗑️ Supprimer
+          </button>
+          ${!l.disponible ? `<button class="btn btn-sm btn-info" onclick="ouvrirReservation(${l.id}, '${titreEchappe}')">📌 Réserver${enAttente ? ` (${enAttente})` : ''}</button>` : ''}
+        </div>
       </td>
     </tr>
-  `).join('') || '<tr><td colspan="5">Aucun livre trouvé.</td></tr>';
+  `;
+  }).join('') || '<tr><td colspan="5">Aucun livre trouvé.</td></tr>';
 
   afficherPagination(pagination);
 }
@@ -50,8 +69,13 @@ function editerLivre(id, titre, annee, auteurId) {
 
 async function supprimerLivre(id) {
   if (!confirm('Supprimer ce livre ?')) return;
-  await api.delete(`/livres/${id}`);
-  chargerLivres(livresPageActuelle);
+  try {
+    await api.delete(`/livres/${id}`);
+    toast('Livre supprimé.');
+    chargerLivres(livresPageActuelle);
+  } catch (err) {
+    toast(err.message, 'erreur');
+  }
 }
 
 document.getElementById('btn-afficher-form-livre').addEventListener('click', () => basculerForm('form-livre'));
@@ -61,6 +85,9 @@ document.getElementById('recherche-livre').addEventListener('input', () => {
   clearTimeout(rechercheTimeout);
   rechercheTimeout = setTimeout(() => chargerLivres(1), 300);
 });
+
+document.getElementById('filtre-disponibilite').addEventListener('change', () => chargerLivres(1));
+document.getElementById('filtre-auteur').addEventListener('change', () => chargerLivres(1));
 
 document.getElementById('form-livre').addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -77,8 +104,10 @@ document.getElementById('form-livre').addEventListener('submit', async (e) => {
   try {
     if (id) {
       await api.put(`/livres/${id}`, corps);
+      toast('Livre modifié.');
     } else {
       await api.post('/livres', corps);
+      toast('Livre ajouté.');
     }
     e.target.reset();
     document.getElementById('livre-id').value = '';
@@ -86,5 +115,6 @@ document.getElementById('form-livre').addEventListener('submit', async (e) => {
     chargerLivres(livresPageActuelle);
   } catch (err) {
     erreurZone.textContent = err.message;
+    toast(err.message, 'erreur');
   }
 });
