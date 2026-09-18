@@ -11,6 +11,8 @@ async function chargerLivres(page = 1) {
   if (disponibilite) params.set('disponible', disponibilite);
   if (auteurId) params.set('auteur_id', auteurId);
 
+  afficherLignesChargement('livres-tbody', 5);
+
   const [{ donnees, pagination }] = await Promise.all([
     api.get(`/livres?${params}`),
     chargerReservations(),
@@ -43,7 +45,7 @@ async function chargerLivres(page = 1) {
       </td>
     </tr>
   `;
-  }).join('') || '<tr><td colspan="5">Aucun livre trouvé.</td></tr>';
+  }).join('') || ligneEtatVide(5, 'Aucun livre trouvé.');
 
   afficherPagination(pagination);
 }
@@ -101,6 +103,7 @@ document.getElementById('form-livre').addEventListener('submit', async (e) => {
     auteur_id: document.getElementById('livre-auteur').value,
   };
 
+  const deverrouiller = verrouillerBouton(e.target.querySelector('button[type="submit"]'), 'Enregistrement...');
   try {
     if (id) {
       await api.put(`/livres/${id}`, corps);
@@ -116,5 +119,7 @@ document.getElementById('form-livre').addEventListener('submit', async (e) => {
   } catch (err) {
     erreurZone.textContent = err.message;
     toast(err.message, 'erreur');
+  } finally {
+    deverrouiller();
   }
 });

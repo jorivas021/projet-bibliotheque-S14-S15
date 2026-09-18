@@ -1,4 +1,5 @@
 async function chargerEmprunts() {
+  afficherLignesChargement('emprunts-tbody', 6);
   const emprunts = await api.get('/emprunts');
   const tbody = document.getElementById('emprunts-tbody');
 
@@ -20,7 +21,7 @@ async function chargerEmprunts() {
         </td>
       </tr>
     `;
-  }).join('') || '<tr><td colspan="6">Aucun emprunt en cours.</td></tr>';
+  }).join('') || ligneEtatVide(6, 'Aucun emprunt en cours.');
 
   chargerSelectLivresDisponibles();
 }
@@ -81,6 +82,7 @@ document.getElementById('form-emprunt').addEventListener('submit', async (e) => 
     date_retour_prevue: document.getElementById('emprunt-date-retour').value,
   };
 
+  const deverrouiller = verrouillerBouton(e.target.querySelector('button[type="submit"]'), 'Enregistrement...');
   try {
     await api.post('/emprunts', corps);
     toast('Emprunt enregistré.');
@@ -90,5 +92,7 @@ document.getElementById('form-emprunt').addEventListener('submit', async (e) => 
   } catch (err) {
     erreurZone.textContent = err.message;
     toast(err.message, 'erreur');
+  } finally {
+    deverrouiller();
   }
 });

@@ -1,4 +1,5 @@
 async function chargerAdherents() {
+  afficherLignesChargement('adherents-tbody', 3);
   const adherents = await api.get('/adherents');
   const tbody = document.getElementById('adherents-tbody');
   tbody.innerHTML = adherents.map((a) => `
@@ -19,7 +20,7 @@ async function chargerAdherents() {
         </div>
       </td>
     </tr>
-  `).join('');
+  `).join('') || ligneEtatVide(3, 'Aucun adhérent enregistré.');
 
   remplirSelectAdherents(adherents);
 }
@@ -33,8 +34,9 @@ function remplirSelectAdherents(adherents) {
 }
 
 async function voirHistorique(id, nom) {
-  const historique = await api.get(`/adherents/${id}/emprunts`);
   const zone = document.getElementById('adherent-historique');
+  zone.innerHTML = `<h3>Historique de ${nom}</h3><p class="table-empty">Chargement...</p>`;
+  const historique = await api.get(`/adherents/${id}/emprunts`);
 
   if (historique.length === 0) {
     zone.innerHTML = `<h3>Historique de ${nom}</h3><p>Aucun emprunt.</p>`;
@@ -93,6 +95,7 @@ document.getElementById('form-adherent').addEventListener('submit', async (e) =>
     contact: document.getElementById('adherent-contact').value,
   };
 
+  const deverrouiller = verrouillerBouton(e.target.querySelector('button[type="submit"]'), 'Enregistrement...');
   try {
     if (id) {
       await api.put(`/adherents/${id}`, corps);
@@ -107,5 +110,7 @@ document.getElementById('form-adherent').addEventListener('submit', async (e) =>
     chargerAdherents();
   } catch (err) {
     toast(err.message, 'erreur');
+  } finally {
+    deverrouiller();
   }
 });

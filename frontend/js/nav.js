@@ -1,9 +1,13 @@
 document.querySelectorAll('.nav-btn').forEach((btn) => {
   btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach((b) => b.classList.remove('active'));
+    document.querySelectorAll('.nav-btn').forEach((b) => {
+      b.classList.remove('active');
+      b.removeAttribute('aria-current');
+    });
     document.querySelectorAll('.section').forEach((s) => s.classList.remove('active'));
 
     btn.classList.add('active');
+    btn.setAttribute('aria-current', 'page');
     const section = document.getElementById(btn.dataset.section);
     section.classList.add('active');
 

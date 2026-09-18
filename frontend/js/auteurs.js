@@ -1,4 +1,5 @@
 async function chargerAuteurs() {
+  afficherLignesChargement('auteurs-tbody', 3);
   const auteurs = await api.get('/auteurs');
   const tbody = document.getElementById('auteurs-tbody');
   tbody.innerHTML = auteurs.map((a) => `
@@ -16,7 +17,7 @@ async function chargerAuteurs() {
         </div>
       </td>
     </tr>
-  `).join('');
+  `).join('') || ligneEtatVide(3, 'Aucun auteur enregistré.');
 
   remplirSelectAuteurs(auteurs);
 }
@@ -62,6 +63,7 @@ document.getElementById('form-auteur').addEventListener('submit', async (e) => {
     nationalite: document.getElementById('auteur-nationalite').value,
   };
 
+  const deverrouiller = verrouillerBouton(e.target.querySelector('button[type="submit"]'), 'Enregistrement...');
   try {
     if (id) {
       await api.put(`/auteurs/${id}`, corps);
@@ -76,5 +78,7 @@ document.getElementById('form-auteur').addEventListener('submit', async (e) => {
     chargerAuteurs();
   } catch (err) {
     toast(err.message, 'erreur');
+  } finally {
+    deverrouiller();
   }
 });

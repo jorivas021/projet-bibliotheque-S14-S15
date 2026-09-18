@@ -1,9 +1,16 @@
 async function chargerStats() {
+  const grid = document.getElementById('stats-grid');
+  if (!grid) return;
+
+  grid.innerHTML = Array.from({ length: 6 }).map(() => `
+    <div class="stat-card">
+      <div class="valeur"><span class="skeleton skeleton-clair" style="max-width:60px;height:1.4rem;"></span></div>
+      <div class="label"><span class="skeleton skeleton-clair" style="max-width:100px;margin-top:0.4rem;"></span></div>
+    </div>
+  `).join('');
+
   try {
     const s = await api.get('/stats');
-    const grid = document.getElementById('stats-grid');
-
-    if (!grid) return;
 
     grid.innerHTML = `
       <div class="stat-card">

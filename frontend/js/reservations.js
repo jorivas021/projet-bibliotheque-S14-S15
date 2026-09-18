@@ -26,6 +26,7 @@ document.getElementById('form-reservation').addEventListener('submit', async (e)
     adherent_id: document.getElementById('reservation-adherent').value,
   };
 
+  const deverrouiller = verrouillerBouton(e.target.querySelector('button[type="submit"]'), 'Enregistrement...');
   try {
     await api.post('/reservations', corps);
     toast('Réservation enregistrée.');
@@ -35,5 +36,7 @@ document.getElementById('form-reservation').addEventListener('submit', async (e)
   } catch (err) {
     erreurZone.textContent = err.message;
     toast(err.message, 'erreur');
+  } finally {
+    deverrouiller();
   }
 });

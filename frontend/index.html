@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Rivathèque — portail de gestion d'une bibliothèque de quartier : catalogue de livres, auteurs, adhérents et suivi des emprunts.">
+  <meta name="theme-color" content="#0d1220" id="meta-theme-color">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%9A%3C/text%3E%3C/svg%3E">
   <title>Rivathèque</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -10,47 +13,48 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <div id="toast-container"></div>
-  
+  <a href="#tableau-bord" class="skip-link">Aller au contenu</a>
+  <div id="toast-container" role="status" aria-live="polite"></div>
+
   <header class="app-header">
     <div class="header-content">
       <div class="brand">
-        <div class="logo-badge">
-          <span>B</span>
+        <div class="logo-badge" aria-hidden="true">
+          <span>R</span>
         </div>
         <div class="brand-text">
-          <h1>Bibliothèque</h1>
-          <span class="sub-brand">Rivathèque</span>
+          <h1>Rivathèque</h1>
+          <span class="sub-brand">Bibliothèque de quartier</span>
         </div>
       </div>
 
-      <nav class="nav-container">
-        <button class="nav-btn active" data-section="tableau-bord">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      <nav class="nav-container" aria-label="Navigation principale">
+        <button class="nav-btn active" data-section="tableau-bord" aria-current="page">
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
           <span>Tableau de bord</span>
         </button>
         <button class="nav-btn" data-section="livres">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
           <span>Livres</span>
         </button>
         <button class="nav-btn" data-section="auteurs">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
           <span>Auteurs</span>
         </button>
         <button class="nav-btn" data-section="adherents">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><path d="M21 21v-2a4 4 0 0 0-3-3.85"></path><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M1 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path><path d="M21 21v-2a4 4 0 0 0-3-3.85"></path><path d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"></path><path d="M1 21v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2"></path></svg>
           <span>Adhérents</span>
         </button>
         <button class="nav-btn" data-section="emprunts">
-          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+          <svg class="nav-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
           <span>Emprunts</span>
         </button>
       </nav>
 
       <div class="header-actions">
-        <button id="theme-toggle" class="theme-toggle-btn" title="Changer de thème (Clair / Sombre)">
-          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <button id="theme-toggle" class="theme-toggle-btn" type="button" aria-label="Changer de thème (clair / sombre)" aria-pressed="false" title="Changer de thème (Clair / Sombre)">
+          <svg class="sun-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+          <svg class="moon-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
       </div>
     </div>
@@ -79,15 +83,18 @@
 
       <div class="toolbar">
         <div class="search-input-wrapper">
-          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <label class="sr-only" for="recherche-livre">Rechercher un livre</label>
+          <svg class="search-icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
           <input type="text" id="recherche-livre" placeholder="Rechercher par titre ou auteur... (Ctrl+K)">
         </div>
         <div class="filter-group">
+          <label class="sr-only" for="filtre-disponibilite">Filtrer par disponibilité</label>
           <select id="filtre-disponibilite">
             <option value="">Tous les statuts</option>
             <option value="true">Disponible</option>
             <option value="false">Emprunté</option>
           </select>
+          <label class="sr-only" for="filtre-auteur">Filtrer par auteur</label>
           <select id="filtre-auteur">
             <option value="">Tous les auteurs</option>
           </select>
@@ -98,6 +105,7 @@
         <input type="hidden" id="reservation-livre-id">
         <strong id="reservation-livre-nom"></strong>
         <div class="form-row">
+          <label class="sr-only" for="reservation-adherent">Choisir un adhérent</label>
           <select id="reservation-adherent" required>
             <option value="" disabled selected>-- Sélectionnez un adherent --</option>
           </select>
@@ -110,8 +118,11 @@
       <form id="form-livre" class="form-card hidden">
         <h3 class="form-title">Nouveau / Modifier Livre</h3>
         <div class="form-grid">
+          <label class="sr-only" for="livre-titre">Titre du livre</label>
           <input type="text" id="livre-titre" placeholder="Titre du livre" required>
+          <label class="sr-only" for="livre-annee">Année de publication</label>
           <input type="number" id="livre-annee" placeholder="Année de publication">
+          <label class="sr-only" for="livre-auteur">Auteur</label>
           <select id="livre-auteur" required>
             <option value="" disabled selected>-- Sélectionnez un auteur --</option>
           </select>
@@ -145,7 +156,9 @@
       <form id="form-auteur" class="form-card hidden">
         <h3 class="form-title">Fiche Auteur</h3>
         <div class="form-grid">
+          <label class="sr-only" for="auteur-nom">Nom complet</label>
           <input type="text" id="auteur-nom" placeholder="Nom complet" required>
+          <label class="sr-only" for="auteur-nationalite">Nationalité</label>
           <input type="text" id="auteur-nationalite" placeholder="Nationalité">
         </div>
         <input type="hidden" id="auteur-id">
@@ -173,7 +186,9 @@
       <form id="form-adherent" class="form-card hidden">
         <h3 class="form-title">Fiche Adhérent</h3>
         <div class="form-grid">
+          <label class="sr-only" for="adherent-nom">Nom et prénom</label>
           <input type="text" id="adherent-nom" placeholder="Nom & Prénom" required>
+          <label class="sr-only" for="adherent-contact">Email ou téléphone</label>
           <input type="text" id="adherent-contact" placeholder="Email ou Téléphone" required>
         </div>
         <input type="hidden" id="adherent-id">
@@ -198,7 +213,7 @@
         <h2>Suivi des Emprunts</h2>
         <div class="header-btns">
           <button id="btn-export-retard" type="button" class="btn btn-secondary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;margin-right:6px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            <svg class="btn-icon-left" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
             Exporter retards (CSV)
           </button>
           <button id="btn-afficher-form-emprunt" class="btn btn-primary">+ Nouvel emprunt</button>
@@ -208,12 +223,15 @@
       <form id="form-emprunt" class="form-card hidden">
         <h3 class="form-title">Enregistrer un emprunt</h3>
         <div class="form-grid">
+          <label class="sr-only" for="emprunt-adherent">Adhérent</label>
           <select id="emprunt-adherent" required>
             <option value="" disabled selected>-- Sélectionnez un adherent --</option>
           </select>
+          <label class="sr-only" for="emprunt-livre">Livre</label>
           <select id="emprunt-livre" required>
             <option value="" disabled selected>-- Sélectionnez un livre --</option>
           </select>
+          <label class="sr-only" for="emprunt-date-retour">Date de retour prévue</label>
           <input type="date" id="emprunt-date-retour" required>
         </div>
         <p class="erreur" id="emprunt-erreur"></p>
@@ -233,6 +251,7 @@
   </main>
 
   <script src="js/api.js"></script>
+  <script src="js/ui.js"></script>
   <script src="js/toast.js"></script>
   <script src="js/nav.js"></script>
   <script src="js/theme.js"></script> <!-- Nouveau script Theme -->
